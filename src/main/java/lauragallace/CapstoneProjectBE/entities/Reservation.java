@@ -17,5 +17,8 @@ public class Reservation {
     private UUID id;
     @ManyToOne
     @JoinColumn (name = "customer_id")
-    private Customer customer;
+    private User customer;
+    @ManyToOne
+    @JoinColumn (name= "flight_id")
+    private Flight flight;
 }

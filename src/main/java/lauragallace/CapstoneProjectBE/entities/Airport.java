@@ -24,5 +24,4 @@ public class Airport {
     @OneToMany (mappedBy = "arrivalAirport")
     private List <Flight> flightListArrival;
 
-
 }
