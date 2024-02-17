@@ -7,6 +7,7 @@ import lauragallace.CapstoneProjectBE.services.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class AirportController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<Airport> updateAirport(@PathVariable UUID id, @RequestBody UpdateAirportNameDTO body) {
         Airport updatedAirport = airportService.updateAirportName(id,body.newName());
         if (updatedAirport != null) {
