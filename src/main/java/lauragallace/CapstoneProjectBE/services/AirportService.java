@@ -2,6 +2,7 @@ package lauragallace.CapstoneProjectBE.services;
 
 import lauragallace.CapstoneProjectBE.entities.Airport;
 import lauragallace.CapstoneProjectBE.exceptions.NotFoundException;
+import lauragallace.CapstoneProjectBE.payloads.airports.AirportDTO;
 import lauragallace.CapstoneProjectBE.repositories.AirportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,10 @@ private AirportRepository airportRepository;
         return airportRepository.findByName(name);
     }
 
-    public Airport createAirport(Airport airport) {
-        return airportRepository.save(airport);
+    public Airport createAirport(AirportDTO airport) {
+        Airport airport1 = new Airport();
+        airport1.setName(airport.name());
+        return airportRepository.save(airport1);
     }
 
     public Airport updateAirportName(UUID id, String newName) {

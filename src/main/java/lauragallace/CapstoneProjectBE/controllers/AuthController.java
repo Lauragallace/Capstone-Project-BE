@@ -35,7 +35,7 @@ public class AuthController {
         String accessToken = this.authService.authenticateUser(body);
         User user = this.authService.findByEmail(body.email());
         return new UserLoginResponseDTO(
-                accessToken
+                accessToken,user.getRole()
         );
     }
 }

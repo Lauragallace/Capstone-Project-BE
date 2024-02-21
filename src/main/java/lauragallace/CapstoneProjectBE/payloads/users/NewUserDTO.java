@@ -14,7 +14,6 @@ public record NewUserDTO (
         String email,
         @NotBlank(message = "password is a required field")
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$", message = "La password deve avere almeno 6 caratteri, tra cui almeno una lettera e un numero")
-        String password,
-        String role
+        String password
 ){
 }

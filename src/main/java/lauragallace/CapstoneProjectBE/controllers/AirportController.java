@@ -2,6 +2,7 @@ package lauragallace.CapstoneProjectBE.controllers;
 
 
 import lauragallace.CapstoneProjectBE.entities.Airport;
+import lauragallace.CapstoneProjectBE.payloads.airports.AirportDTO;
 import lauragallace.CapstoneProjectBE.payloads.airports.UpdateAirportNameDTO;
 import lauragallace.CapstoneProjectBE.services.AirportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class AirportController {
     }
 
     @PostMapping
-    public ResponseEntity<Airport> createAirport(@RequestBody Airport airport) {
+    public ResponseEntity<Airport> createAirport(@RequestBody AirportDTO airport) {
         Airport createdAirport = airportService.createAirport(airport);
         return new ResponseEntity<>(createdAirport, HttpStatus.CREATED);
     }

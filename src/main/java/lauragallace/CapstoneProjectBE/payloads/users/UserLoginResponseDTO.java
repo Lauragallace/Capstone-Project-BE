@@ -1,4 +1,6 @@
 package lauragallace.CapstoneProjectBE.payloads.users;
 
-public record UserLoginResponseDTO(String token) {
+import lauragallace.CapstoneProjectBE.entities.enums.Role;
+
+public record UserLoginResponseDTO(String token, Role role) {
 }

@@ -33,13 +33,8 @@ public class AuthService {
         newUser.setEmail(body.email());
         newUser.setPassword(bcrypt.encode(body.password()));
         newUser.setAvatarUrl("https://ui-avatars.com/api/?name=" + body.firstName() + "+" + body.lastName());
-        if (body.role() == null) {
-            newUser.setRole(Role.CUSTOMER);
-        } else if (body.role().equalsIgnoreCase("ADMIN")) {
-            newUser.setRole(Role.ADMIN);
-        } else {
-            newUser.setRole(Role.CUSTOMER);
-        }
+        newUser.setRole(Role.CUSTOMER);
+
         return this.usersRepository.save(newUser);
     }
     public User findByEmail(String email){
