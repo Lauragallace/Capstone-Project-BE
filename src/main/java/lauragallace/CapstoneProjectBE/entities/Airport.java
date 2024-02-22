@@ -1,5 +1,6 @@
 package lauragallace.CapstoneProjectBE.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,8 +20,10 @@ public class Airport {
     private UUID id;
     @Column(unique = true)
     private String name;
+    @JsonIgnore
     @OneToMany (mappedBy = "departureAirport")
     private List <Flight> flightListDeparture;
+    @JsonIgnore
     @OneToMany (mappedBy = "arrivalAirport")
     private List <Flight> flightListArrival;
 

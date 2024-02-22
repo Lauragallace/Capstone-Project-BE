@@ -1,6 +1,8 @@
 package lauragallace.CapstoneProjectBE.services;
 
 import lauragallace.CapstoneProjectBE.entities.Flight;
+import lauragallace.CapstoneProjectBE.payloads.airports.FlightDTO;
+import lauragallace.CapstoneProjectBE.payloads.airports.SearchFlightDTO;
 import lauragallace.CapstoneProjectBE.repositories.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,9 @@ import java.util.UUID;
 
 @Service
 public class FlightService {
+
+    @Autowired
+    private AirportService airportService;
 
     private final FlightRepository flightRepository;
 
@@ -27,7 +32,16 @@ public class FlightService {
         return flightRepository.findById(id);
     }
 
-    public Flight createFlight(Flight flight) {
+    public Flight createFlight(FlightDTO flightDTO) {
+
+        Flight flight = new Flight();
+        flight.setFlightClass(flightDTO.flightClass());
+        flight.setPrice(flightDTO.price());
+        flight.setPlaces(flightDTO.places());
+        flight.setDepartureDate(flightDTO.departureDate());
+        flight.setArrivalDate(flightDTO.arrivalDate());
+        flight.setDepartureAirport(airportService.getAirportById(flightDTO.departureAirportCode()));
+        flight.setArrivalAirport(airportService.getAirportById(flightDTO.arrivalAirportCode()));
         return flightRepository.save(flight);
     }
 
@@ -55,5 +69,13 @@ public class FlightService {
         } else {
             return false;
         }
+    }
+
+    public List<Flight> getAllFlightsFiltered(SearchFlightDTO searchFlightDTO){
+        return flightRepository.getAllFlightsFiltered(
+                searchFlightDTO.departureAirport(),
+                searchFlightDTO.arrivalAirport(),
+                searchFlightDTO.flightClass(),
+                searchFlightDTO.flightDate());
     }
 }

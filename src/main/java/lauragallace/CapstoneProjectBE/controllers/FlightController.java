@@ -1,8 +1,12 @@
 package lauragallace.CapstoneProjectBE.controllers;
 
+import com.cloudinary.Search;
 import lauragallace.CapstoneProjectBE.entities.Flight;
+import lauragallace.CapstoneProjectBE.payloads.airports.FlightDTO;
+import lauragallace.CapstoneProjectBE.payloads.airports.SearchFlightDTO;
 import lauragallace.CapstoneProjectBE.services.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Encoding;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +31,12 @@ public class FlightController {
         return new ResponseEntity<>(flights, HttpStatus.OK);
     }
 
+    @PostMapping("/getFiltered")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Flight> getAllFlightsFiltered(@RequestBody SearchFlightDTO searchFlightDTO) {
+        return flightService.getAllFlightsFiltered(searchFlightDTO);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Flight> getFlightById(@PathVariable UUID id) {
         Flight flight = flightService.getFlightById(id).orElse(null);
@@ -38,7 +48,7 @@ public class FlightController {
     }
 
     @PostMapping
-    public ResponseEntity<Flight> createFlight(@RequestBody Flight flight) {
+    public ResponseEntity<Flight> createFlight(@RequestBody FlightDTO flight) {
         Flight createdFlight = flightService.createFlight(flight);
         return new ResponseEntity<>(createdFlight, HttpStatus.CREATED);
     }
