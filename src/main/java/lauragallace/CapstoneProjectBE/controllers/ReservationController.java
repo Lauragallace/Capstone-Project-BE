@@ -1,10 +1,14 @@
 package lauragallace.CapstoneProjectBE.controllers;
 
 import lauragallace.CapstoneProjectBE.entities.Reservation;
+import lauragallace.CapstoneProjectBE.entities.User;
+import lauragallace.CapstoneProjectBE.payloads.airports.ReservationDTO;
 import lauragallace.CapstoneProjectBE.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,8 +40,9 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation) {
-        Reservation createdReservation = reservationService.createReservation(reservation);
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    public ResponseEntity<Reservation> createReservation(@RequestBody ReservationDTO reservation, @AuthenticationPrincipal User customer) {
+        Reservation createdReservation = reservationService.createReservation(reservation,customer);
         return new ResponseEntity<>(createdReservation, HttpStatus.CREATED);
     }
 

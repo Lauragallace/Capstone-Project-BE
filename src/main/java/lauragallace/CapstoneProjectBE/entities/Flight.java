@@ -21,6 +21,7 @@ public class Flight {
     private LocalDateTime departureDate;
     private LocalDateTime ArrivalDate;
     private Integer places;
+    private Integer remainingPlaces;
     @Enumerated (EnumType.STRING)
     private FlightClass flightClass;
     private Double price;

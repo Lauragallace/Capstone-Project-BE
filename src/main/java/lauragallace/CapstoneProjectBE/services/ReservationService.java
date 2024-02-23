@@ -1,6 +1,10 @@
 package lauragallace.CapstoneProjectBE.services;
 
+import lauragallace.CapstoneProjectBE.entities.Flight;
 import lauragallace.CapstoneProjectBE.entities.Reservation;
+import lauragallace.CapstoneProjectBE.entities.User;
+import lauragallace.CapstoneProjectBE.exceptions.BadRequestException;
+import lauragallace.CapstoneProjectBE.payloads.airports.ReservationDTO;
 import lauragallace.CapstoneProjectBE.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +15,9 @@ import java.util.UUID;
 
 @Service
 public class ReservationService {
+
+    @Autowired
+    private FlightService flightService;
 
     private final ReservationRepository reservationRepository;
 
@@ -27,8 +34,18 @@ public class ReservationService {
         return reservationRepository.findById(id);
     }
 
-    public Reservation createReservation(Reservation reservation) {
-        return reservationRepository.save(reservation);
+    public Reservation createReservation(ReservationDTO reservationDTO, User customer) {
+        Flight flight = flightService.getFlightById(reservationDTO.flightId()).get();
+        if(flight.getRemainingPlaces() == 0){
+            throw new BadRequestException("flight full");
+        }
+        flight.setRemainingPlaces(flight.getRemainingPlaces()-1);
+        flightService.updateFlight(flight.getId(),flight);
+        Reservation reservation1 = new Reservation();
+        reservation1.setFlight(flight);
+        reservation1.setCustomer(customer);
+
+        return reservationRepository.save(reservation1);
     }
 
     public Reservation updateReservation(UUID id, Reservation updatedReservation) {

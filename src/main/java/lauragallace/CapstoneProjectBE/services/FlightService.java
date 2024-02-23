@@ -38,6 +38,7 @@ public class FlightService {
         flight.setFlightClass(flightDTO.flightClass());
         flight.setPrice(flightDTO.price());
         flight.setPlaces(flightDTO.places());
+        flight.setRemainingPlaces(flightDTO.places());
         flight.setDepartureDate(flightDTO.departureDate());
         flight.setArrivalDate(flightDTO.arrivalDate());
         flight.setDepartureAirport(airportService.getAirportById(flightDTO.departureAirportCode()));
