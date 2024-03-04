@@ -39,6 +39,10 @@ public class ReservationService {
         if(flight.getRemainingPlaces() == 0){
             throw new BadRequestException("flight full");
         }
+        List<Reservation> reservationList = reservationRepository.getReservationByUserAndFlight(customer.getId(),reservationDTO.flightId());
+        if(reservationList.size() > 0){
+            throw new BadRequestException("reservation doubled");
+        }
         flight.setRemainingPlaces(flight.getRemainingPlaces()-1);
         flightService.updateFlight(flight.getId(),flight);
         Reservation reservation1 = new Reservation();
